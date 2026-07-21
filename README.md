@@ -4,7 +4,11 @@ Trang bán PromptIMG (static): pitch + bảng giá + **VietQR Techcombank**.
 
 ## URL
 
-Sau khi bật Pages: `https://<user>.github.io/promptimg/`
+- Repo: https://github.com/gonostudy305/promptimg  
+- GitHub Pages: https://gonostudy305.github.io/promptimg/  
+- Custom (user site CNAME): http://gonovn.me/promptimg/  
+
+Nếu mở ra **526 Cloudflare**: vào Cloudflare → SSL/TLS → mode **Full** (không Flexible), và DNS `gonovn.me` trỏ đúng GitHub Pages. Source đã `built` trên GitHub.
 
 ## Local preview
 
