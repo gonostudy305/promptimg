@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptIMG — Brief client → prompt ảnh đúng brand</title>
+  <meta name="description" content="Bộ kit cho agency VN: dán brief → prompt GPT-Image-2 & Nano Banana on-brand. 32 case, 3 pack ngành. Chuyển khoản VietQR Techcombank." />
+  <meta property="og:title" content="PromptIMG — Agency Image Prompt Kit" />
+  <meta property="og:description" content="Dán brief → prompt ảnh đúng brand. GPT-Image-2 + Nano Banana. Dành cho agency marketing Việt Nam." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b1220; --card: #151f35; --line: rgba(255,255,255,.08);
+      --text: #eef3ff; --muted: #9aabc8; --blue: #2f6fed; --blue2: #104C87;
+      --gold: #FFD60D; --ok: #3dd68c; --radius: 16px; --shadow: 0 20px 60px rgba(0,0,0,.45); --max: 1080px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Be Vietnam Pro", system-ui, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(47,111,237,.25), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(255,214,13,.08), transparent 40%),
+        var(--bg);
+      color: var(--text); line-height: 1.55;
+    }
+    a { color: inherit; }
+    .wrap { width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(11,18,32,.72);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: .9rem 0; gap: 1rem; }
+    .logo { font-weight: 800; letter-spacing: -.02em; font-size: 1.15rem; display: flex; align-items: center; gap: .55rem; }
+    .logo span {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 0 24px rgba(47,111,237,.45);
+      display: inline-block;
+    }
+    .nav-links { display: flex; gap: 1.1rem; align-items: center; font-size: .92rem; color: var(--muted); }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+      border: 0; border-radius: 999px; padding: .72rem 1.15rem;
+      font-weight: 600; font-size: .95rem; cursor: pointer; text-decoration: none;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), #f0c000);
+      color: #1a1400; box-shadow: 0 8px 28px rgba(255,214,13,.22);
+    }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+    .btn-blue {
+      background: linear-gradient(135deg, var(--blue), #1f4fbf);
+      color: white; box-shadow: 0 8px 28px rgba(47,111,237,.28);
+    }
+    .hero { padding: 4.2rem 0 3rem; }
+    .hero-grid { display: grid; grid-template-columns: 1.15fr .95fr; gap: 2.2rem; align-items: center; }
+    @media (max-width: 880px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .nav-links .hide-sm { display: none; }
+    }
+    .eyebrow {
+      display: inline-flex; color: var(--gold); font-weight: 600; font-size: .82rem;
+      letter-spacing: .04em; text-transform: uppercase; margin-bottom: .9rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 4.4vw, 3.15rem);
+      line-height: 1.12; letter-spacing: -.03em; margin: 0 0 1rem;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, #fff, #b9d0ff 50%, var(--gold));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lead { color: var(--muted); font-size: 1.08rem; max-width: 36rem; margin: 0 0 1.5rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 1.2rem; }
+    .trust { color: var(--muted); font-size: .88rem; }
+    .trust strong { color: var(--ok); font-weight: 600; }
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent), var(--card);
+      border: 1px solid var(--line); border-radius: calc(var(--radius) + 4px);
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .panel-top {
+      display: flex; gap: .4rem; padding: .75rem 1rem;
+      border-bottom: 1px solid var(--line); background: rgba(0,0,0,.2);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+    .dot:nth-child(2) { background: #febc2e; }
+    .dot:nth-child(3) { background: #28c840; }
+    .panel pre {
+      margin: 0; padding: 1.1rem 1.15rem 1.25rem;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: .78rem; line-height: 1.55; color: #d7e4ff;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .c-muted { color: #7f93b5; } .c-gold { color: var(--gold); }
+    .c-ok { color: var(--ok); } .c-blue { color: #8eb6ff; }
+    section { padding: 3.2rem 0; }
+    section h2 { font-size: clamp(1.45rem, 2.5vw, 1.9rem); letter-spacing: -.02em; margin: 0 0 .5rem; }
+    .section-lead { color: var(--muted); margin: 0 0 1.6rem; max-width: 38rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (max-width: 800px) { .grid-3 { grid-template-columns: 1fr; } }
+    .card {
+      background: rgba(255,255,255,.03); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 1.2rem 1.15rem;
+    }
+    .card h3 { margin: 0 0 .45rem; font-size: 1.05rem; }
+    .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+    .icon {
+      width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+      background: rgba(47,111,237,.15); color: #9ec0ff; margin-bottom: .8rem;
+    }
+    table.cmp {
+      width: 100%; border-collapse: collapse; font-size: .92rem;
+      background: rgba(255,255,255,.02); border: 1px solid var(--line);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    table.cmp th, table.cmp td { padding: .85rem 1rem; text-align: left; border-bottom: 1px solid var(--line); }
+    table.cmp th { color: var(--muted); font-weight: 500; background: rgba(0,0,0,.2); }
+    table.cmp td:first-child { color: var(--muted); }
+    table.cmp tr:last-child td { border-bottom: 0; }
+    .yes { color: var(--ok); font-weight: 600; } .no { color: #6b7c99; }
+    .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (max-width: 860px) { .pricing { grid-template-columns: 1fr; } }
+    .price-card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 2px); padding: 1.35rem 1.25rem;
+      display: flex; flex-direction: column; gap: .65rem; position: relative;
+    }
+    .price-card.featured {
+      border-color: rgba(255,214,13,.45);
+      box-shadow: 0 0 0 1px rgba(255,214,13,.15), var(--shadow);
+    }
+    .badge {
+      position: absolute; top: -10px; right: 14px;
+      background: var(--gold); color: #1a1400; font-size: .72rem; font-weight: 700;
+      padding: .25rem .55rem; border-radius: 999px;
+    }
+    .price { font-size: 2rem; font-weight: 800; letter-spacing: -.03em; }
+    .price small { font-size: .95rem; font-weight: 500; color: var(--muted); }
+    .price-card ul { margin: .3rem 0 1rem; padding-left: 1.1rem; color: var(--muted); flex: 1; }
+    .price-card li { margin: .35rem 0; }
+    .steps { counter-reset: step; display: grid; gap: .8rem; }
+    .step {
+      display: grid; grid-template-columns: auto 1fr; gap: .9rem; align-items: start;
+      padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius);
+      background: rgba(255,255,255,.025);
+    }
+    .step::before {
+      counter-increment: step; content: counter(step);
+      width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+      font-weight: 700; font-size: .9rem; background: rgba(47,111,237,.2); color: #cfe0ff;
+    }
+    .step strong { display: block; margin-bottom: .15rem; }
+    .step span { color: var(--muted); font-size: .95rem; }
+    .faq details {
+      border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1rem;
+      background: rgba(255,255,255,.02); margin-bottom: .6rem;
+    }
+    .faq summary { cursor: pointer; font-weight: 600; }
+    .faq p { color: var(--muted); margin: .6rem 0 0; }
+    .cta-band {
+      margin: 1rem 0 3rem; padding: 2rem;
+      border-radius: calc(var(--radius) + 6px);
+      border: 1px solid rgba(255,214,13,.25);
+      background: linear-gradient(135deg, rgba(16,76,135,.55), rgba(11,18,32,.2)), var(--card);
+      display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+    }
+    .cta-band h2 { margin: 0 0 .35rem; }
+    .cta-band p { margin: 0; color: #c9d7f0; }
+    footer {
+      border-top: 1px solid var(--line); padding: 1.5rem 0 2.5rem;
+      color: var(--muted); font-size: .88rem;
+    }
+    footer .foot { display: flex; flex-wrap: wrap; gap: .8rem 1.5rem; justify-content: space-between; }
+    code.inline {
+      font-family: "JetBrains Mono", monospace; font-size: .85em;
+      background: rgba(255,255,255,.06); padding: .1rem .35rem; border-radius: 6px;
+    }
+    /* Buy panel */
+    #buy .buy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 800px) { #buy .buy-grid { grid-template-columns: 1fr; } }
+    .buy-box {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 2px); padding: 1.25rem;
+    }
+    .tier-opt {
+      border: 1px solid var(--line); border-radius: 12px; padding: .8rem;
+      margin: .4rem 0; cursor: pointer; display: flex; justify-content: space-between; gap: 1rem;
+    }
+    .tier-opt.on { border-color: rgba(255,214,13,.5); box-shadow: 0 0 0 1px rgba(255,214,13,.2); }
+    .tier-opt span { color: var(--muted); font-size: .85rem; display: block; }
+    .tier-opt .p { color: var(--gold); font-weight: 800; white-space: nowrap; }
+    label.f { display: block; font-size: .82rem; color: var(--muted); margin: .7rem 0 .25rem; }
+    input.f {
+      width: 100%; padding: .65rem .75rem; border-radius: 10px;
+      border: 1px solid var(--line); background: #0e1628; color: var(--text); font: inherit;
+    }
+    .qrwrap {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 1rem; background: #fff; border-radius: 16px; margin-bottom: 1rem;
+    }
+    .qrwrap img { width: min(220px, 70vw); height: auto; }
+    .qrwrap .cap { color: #222; font-weight: 700; margin-top: .5rem; font-size: .9rem; text-align: center; }
+    .qrwrap .sub { color: #555; font-size: .75rem; text-align: center; }
+    .rowk { margin-top: .55rem; }
+    .rowk .k { color: var(--muted); font-size: .75rem; }
+    .rowk .v { font-weight: 700; word-break: break-all; }
+    .rowk .v.gold { color: var(--gold); font-size: 1.1rem; }
+    .copybtn { font-size: .75rem; color: #8eb6ff; cursor: pointer; margin-left: .35rem; border: 0; background: none; font: inherit; }
+    .hint { font-size: .8rem; color: var(--muted); margin-top: .9rem; line-height: 1.45; }
+    .okmsg { color: var(--ok); font-size: .9rem; margin-top: .6rem; }
+    .errmsg { color: #ff8e8e; font-size: .9rem; margin-top: .6rem; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="logo"><span></span> PromptIMG</div>
+      <div class="nav-links">
+        <a class="hide-sm" href="#features">Tính năng</a>
+        <a class="hide-sm" href="#pricing">Giá</a>
+        <a class="hide-sm" href="#how">Cách dùng</a>
+        <a class="hide-sm" href="#faq">FAQ</a>
+        <a class="btn btn-primary" href="#buy">Mua Pro — CK VietQR</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Dành cho agency marketing VN</div>
+          <h1>Dán brief client — ra prompt ảnh <em>đúng brand</em></h1>
+          <p class="lead">
+            PromptIMG route brief vào đúng case (banner, bento, packshot, thumbnail…),
+            inject brand guidelines, xuất sẵn dán <strong>GPT-Image-2</strong> &amp; <strong>Nano Banana</strong>.
+            Kèm SOP team + 3 pack ngành.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#buy">Mua Pro — chuyển khoản</a>
+            <a class="btn btn-ghost" href="#how">Xem cách chạy</a>
+          </div>
+          <p class="trust"><strong>Prompt-first</strong> — không cần API key chỉ để lấy prompt · License one-time</p>
+        </div>
+        <div class="panel">
+          <div class="panel-top"><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
+          <pre><span class="c-muted"># Claude Code / project client</span>
+<span class="c-gold">/img</span> Giảm 40% khóa Face ID, banner FB 4:5
+
+<span class="c-muted">→ Case:</span> <span class="c-blue">Ad Creative</span>
+<span class="c-muted">→ Brand:</span> <span class="c-ok">#104C87 · #FFD60D</span>
+<span class="c-muted">→ Export:</span> gpt-image-2.json + nano-banana.txt
+
+{
+  <span class="c-blue">"type"</span>: <span class="c-ok">"ad creative banner"</span>,
+  <span class="c-blue">"aspect_ratio"</span>: <span class="c-ok">"4:5"</span>,
+  <span class="c-blue">"text_labels"</span>: [
+    <span class="c-ok">"Giảm 40%"</span>,
+    <span class="c-ok">"Face ID 0.3s"</span>,
+    <span class="c-ok">"Đặt lịch khảo sát"</span>
+  ]
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <h2>Một hệ thống — không phải list prompt rời</h2>
+        <p class="section-lead">Agency trả tiền cho quy trình ổn định giữa các client, không phải “nhớ prompt”.</p>
+        <div class="grid-3">
+          <article class="card"><div class="icon">01</div><h3>32 case + route tự động</h3><p>Ad, social, bento, comparison table, e-com, thumbnail… BM25 search chọn case đúng brief.</p></article>
+          <article class="card"><div class="icon">02</div><h3>On-brand theo client</h3><p>Mỗi brand một <code class="inline">docs/brand-guidelines.md</code> — hex, mood, visual don'ts inject vào mọi export.</p></article>
+          <article class="card"><div class="icon">03</div><h3>Multi-format 1 lần</h3><p>JSON GPT-Image-2 (text Việt) + Nano Banana + MJ/Flux/SD khi cần.</p></article>
+          <article class="card"><div class="icon">04</div><h3>3 pack ngành VN</h3><p>Smart Home · E-commerce · Social Ads — prompt + brief mẫu.</p></article>
+          <article class="card"><div class="icon">05</div><h3>SOP agency</h3><p>Playbook brief → QA tiếng Việt → bàn giao file prompt kèm ảnh.</p></article>
+          <article class="card"><div class="icon">06</div><h3>License theo seat</h3><p>Key <code class="inline">PIMG-PR-…</code> · Starter 1 · Pro 5 · Agency 15 seats.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="compare">
+      <div class="wrap">
+        <h2>Khác gì ChatGPT / list GitHub free?</h2>
+        <p class="section-lead">Free lists cho cảm hứng. PromptIMG cho delivery team.</p>
+        <div style="overflow-x:auto">
+          <table class="cmp">
+            <thead><tr><th></th><th>ChatGPT dán tay</th><th>Awesome list free</th><th>PromptIMG</th></tr></thead>
+            <tbody>
+              <tr><td>Route đúng use-case</td><td class="no">May rủi</td><td class="no">Tự mò</td><td class="yes">32 case + search</td></tr>
+              <tr><td>Brand multi-client</td><td class="no">Hay quên</td><td class="no">Không</td><td class="yes">File brand / client</td></tr>
+              <tr><td>Text tiếng Việt on-image</td><td class="no">Tuỳ model</td><td class="no">Mẫu lẻ</td><td class="yes">text_labels + GPT-Image-2</td></tr>
+              <tr><td>SOP team agency</td><td class="no">Không</td><td class="no">Không</td><td class="yes">Playbook + packs</td></tr>
+              <tr><td>Chi phí team 3–5 người</td><td class="no">Thời gian</td><td class="yes">$0 + time</td><td class="yes">~2.49tr one-time (Pro)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="wrap">
+        <h2>Chạy trong ~10 phút</h2>
+        <p class="section-lead">Sau khi nhận license key qua email/Zalo.</p>
+        <div class="steps">
+          <div class="step"><div><strong>Cài vào project client</strong><span><code class="inline">.\install.ps1 -ProjectPath "D:\clients\acme" -LicenseKey "PIMG-PR-…"</code></span></div></div>
+          <div class="step"><div><strong>Điền brand</strong><span>Sửa <code class="inline">docs/brand-guidelines.md</code> (hex, mood, don'ts).</span></div></div>
+          <div class="step"><div><strong>Dán brief → export</strong><span>Claude Code: <code class="inline">/img …</code> · hoặc CLI <code class="inline">prompt_builder.py --brand --save</code>.</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="wrap">
+        <h2>Bảng giá (VND · one-time)</h2>
+        <p class="section-lead">Chuyển khoản VietQR Techcombank · admin xác nhận · gửi license key.</p>
+        <div class="pricing">
+          <div class="price-card">
+            <div style="color:var(--muted);font-weight:600">Starter</div>
+            <div class="price">990k <small>VND</small></div>
+            <div style="color:var(--muted);font-size:.9rem">1 seat · solo</div>
+            <ul>
+              <li>Core kit /img + 32 case</li>
+              <li>Multi-format export</li>
+              <li>1 brand profile</li>
+              <li>Commercial client work</li>
+            </ul>
+            <a class="btn btn-ghost" href="#buy" data-tier="starter">Chọn Starter</a>
+          </div>
+          <div class="price-card featured">
+            <div class="badge">KHUYẾN NGHỊ</div>
+            <div style="color:var(--gold);font-weight:700">Pro</div>
+            <div class="price">2.49tr <small>VND</small></div>
+            <div style="color:var(--muted);font-size:.9rem">5 seats · agency nhỏ</div>
+            <ul>
+              <li>Tất cả Starter</li>
+              <li><strong>3 vertical packs VN</strong></li>
+              <li>Agency playbook SOP</li>
+              <li>5 brand profiles</li>
+            </ul>
+            <a class="btn btn-primary" href="#buy" data-tier="pro">Mua Pro</a>
+          </div>
+          <div class="price-card">
+            <div style="color:var(--muted);font-weight:600">Agency</div>
+            <div class="price">4.99tr <small>VND</small></div>
+            <div style="color:var(--muted);font-size:.9rem">15 seats · team</div>
+            <ul>
+              <li>Tất cả Pro</li>
+              <li>Unlimited brand in-house</li>
+              <li>White-label bàn giao</li>
+              <li>Hỗ trợ ưu tiên</li>
+            </ul>
+            <a class="btn btn-blue" href="#buy" data-tier="agency">Chọn Agency</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="buy">
+      <div class="wrap">
+        <h2>Thanh toán chuyển khoản</h2>
+        <p class="section-lead">Quét VietQR (số tiền + nội dung tự điền) hoặc CK thủ công. Sau khi chuyển, gửi xác nhận — admin duyệt và gửi key.</p>
+        <div class="buy-grid">
+          <div class="buy-box">
+            <div id="tiers"></div>
+            <label class="f">Email nhận key *</label>
+            <input class="f" id="email" type="email" placeholder="you@agency.vn" />
+            <label class="f">Họ tên / Agency</label>
+            <input class="f" id="name" type="text" placeholder="Nguyễn Văn A" />
+            <label class="f">Zalo / SĐT (tuỳ chọn)</label>
+            <input class="f" id="phone" type="tel" placeholder="09…" />
+            <button class="btn btn-primary" style="width:100%;margin-top:1rem;border:0" id="gen">Tạo mã đơn &amp; hiện QR</button>
+            <div class="errmsg" id="err"></div>
+          </div>
+          <div class="buy-box" id="paypanel">
+            <p style="margin:0 0 .75rem;color:var(--muted);font-size:.9rem">
+              Đơn <strong id="oc" style="color:var(--text)">—</strong> ·
+              <strong id="amt" style="color:var(--gold)">—</strong>
+            </p>
+            <div class="qrwrap">
+              <img id="qrimg" src="assets/qr-techcombank.png" alt="VietQR Techcombank Huynh Van Vu" width="220" height="220" />
+              <div class="cap">Huynh Van Vu</div>
+              <div class="sub">TECHCOMBANK · VietQR / NAPAS 247</div>
+            </div>
+            <div class="rowk"><div class="k">Ngân hàng</div><div class="v">Techcombank</div></div>
+            <div class="rowk">
+              <div class="k">Số tài khoản <button type="button" class="copybtn" data-copy="19076355563011">copy</button></div>
+              <div class="v gold" id="stk">1907 6355 5630 11</div>
+            </div>
+            <div class="rowk"><div class="k">Chủ tài khoản</div><div class="v">HUYNH VAN VU</div></div>
+            <div class="rowk">
+              <div class="k">Số tiền <button type="button" class="copybtn" id="copyAmt">copy</button></div>
+              <div class="v gold" id="amtRaw">—</div>
+            </div>
+            <div class="rowk">
+              <div class="k">Nội dung CK (bắt buộc) <button type="button" class="copybtn" id="copyMemo">copy</button></div>
+              <div class="v gold" id="memo">PIMG …</div>
+            </div>
+            <p class="hint">
+              1) Quét QR hoặc CK đúng số tiền + nội dung.<br/>
+              2) Bấm nút bên dưới để mở email xác nhận (hoặc Zalo admin).<br/>
+              3) Nhận license key sau khi admin đối chiếu bank.
+            </p>
+            <button class="btn btn-primary" style="width:100%;margin-top:.6rem;border:0" id="notify" disabled>Tôi đã CK — gửi xác nhận</button>
+            <div class="okmsg" id="ok"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <div class="wrap">
+        <h2>FAQ</h2>
+        <details open>
+          <summary>Thanh toán như thế nào?</summary>
+          <p>Chuyển khoản Techcombank (VietQR). Tạo đơn trên trang để có mã <code class="inline">PIMG …</code> và QR đúng số tiền. Admin xác nhận trên app bank rồi gửi license key.</p>
+        </details>
+        <details>
+          <summary>Có cần Claude Code không?</summary>
+          <p>Khuyến nghị dùng slash <code class="inline">/img</code>. Không có Claude Code vẫn chạy CLI Python (search / prompt_builder).</p>
+        </details>
+        <details>
+          <summary>API key generate ảnh?</summary>
+          <p>Không bắt buộc. Prompt là deliverable chính. Muốn render: EvoLink / Gemini — tự trả phí API.</p>
+        </details>
+        <details>
+          <summary>License dùng cho client agency được không?</summary>
+          <p>Có — commercial use cho client của bạn. Không được redistribe / bán lại bộ PromptIMG.</p>
+        </details>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <h2>Chạy brief client đầu tiên tuần này</h2>
+          <p>Pro 2.49tr · 5 seats · pack ngành + SOP · one-time</p>
+        </div>
+        <a class="btn btn-primary" href="#buy">Chuyển khoản ngay →</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>© <span id="y"></span> PromptIMG · Chuyển khoản Techcombank · License commercial</div>
+      <div>Không affiliate OpenAI / Anthropic / Google</div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== CONFIG (sửa trước khi public thêm) =====
+    const CONTACT_EMAIL = ""; // ví dụ: "you@gmail.com" — để trống thì copy clipboard
+    const ZALO_OR_NOTE = "";  // ví dụ link Zalo OA nếu có
+    const BANK = {
+      name: "Techcombank",
+      bin: "970407",
+      account: "19076355563011",
+      accountDisplay: "1907 6355 5630 11",
+      accountName: "HUYNH VAN VU",
+    };
+    const PRODUCTS = {
+      starter: { id: "starter", name: "PromptIMG Starter", seats: 1, amount: 990000, desc: "1 seat · core kit" },
+      pro:     { id: "pro", name: "PromptIMG Pro", seats: 5, amount: 2490000, desc: "5 seats · packs + playbook" },
+      agency:  { id: "agency", name: "PromptIMG Agency", seats: 15, amount: 4990000, desc: "15 seats · white-label" },
+    };
+    // =============================================
+
+    const fmt = n => new Intl.NumberFormat("vi-VN").format(n) + "đ";
+    let selected = "pro";
+    let order = null;
+
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // Tier buttons from pricing
+    document.querySelectorAll("[data-tier]").forEach(a => {
+      a.addEventListener("click", () => { selected = a.getAttribute("data-tier"); paintTiers(); });
+    });
+
+    function paintTiers() {
+      const box = document.getElementById("tiers");
+      box.innerHTML = "";
+      for (const [id, p] of Object.entries(PRODUCTS)) {
+        const el = document.createElement("div");
+        el.className = "tier-opt" + (id === selected ? " on" : "");
+        el.innerHTML = `<div><strong>${p.name}</strong><span>${p.seats} seats · ${p.desc}</span></div>
+          <div class="p">${fmt(p.amount)}</div>`;
+        el.onclick = () => { selected = id; paintTiers(); };
+        box.appendChild(el);
+      }
+    }
+    paintTiers();
+
+    function makeOrderCode() {
+      return (Date.now() % 100000000) * 100 + Math.floor(Math.random() * 100);
+    }
+
+    function vietqrUrl(amount, memo) {
+      const info = encodeURIComponent(memo);
+      const name = encodeURIComponent(BANK.accountName);
+      return `https://img.vietqr.io/image/${BANK.bin}-${BANK.account}-compact2.png?amount=${amount}&addInfo=${info}&accountName=${name}`;
+    }
+
+    function setOrder(o) {
+      order = o;
+      document.getElementById("oc").textContent = "#" + o.code;
+      document.getElementById("amt").textContent = fmt(o.amount);
+      document.getElementById("amtRaw").textContent = fmt(o.amount);
+      document.getElementById("memo").textContent = o.memo;
+      document.getElementById("stk").textContent = BANK.accountDisplay;
+      const img = document.getElementById("qrimg");
+      img.src = vietqrUrl(o.amount, o.memo);
+      img.onerror = () => { img.onerror = null; img.src = "assets/qr-techcombank.png"; };
+      document.getElementById("notify").disabled = false;
+      document.getElementById("copyAmt").setAttribute("data-copy", String(o.amount));
+      document.getElementById("copyMemo").setAttribute("data-copy", o.memo);
+      try {
+        localStorage.setItem("promptimg_last_order", JSON.stringify(o));
+      } catch (_) {}
+    }
+
+    document.getElementById("gen").onclick = () => {
+      const email = document.getElementById("email").value.trim();
+      const err = document.getElementById("err");
+      err.textContent = "";
+      if (!email.includes("@")) { err.textContent = "Nhập email hợp lệ để nhận key."; return; }
+      const p = PRODUCTS[selected];
+      const code = makeOrderCode();
+      const o = {
+        code,
+        tier: p.id,
+        product: p.name,
+        amount: p.amount,
+        seats: p.seats,
+        email,
+        name: document.getElementById("name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        memo: "PIMG " + code,
+        createdAt: new Date().toISOString(),
+      };
+      setOrder(o);
+      document.getElementById("ok").textContent = "Đã tạo đơn. Quét QR hoặc copy STK/nội dung để chuyển khoản.";
+      document.getElementById("paypanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    };
+
+    document.getElementById("notify").onclick = () => {
+      if (!order) return;
+      const body =
+`Xin chào,
+
+Tôi đã chuyển khoản mua PromptIMG.
+
+- Mã đơn: ${order.code}
+- Gói: ${order.product} (${order.tier})
+- Số tiền: ${order.amount} VND
+- Nội dung CK: ${order.memo}
+- Email nhận key: ${order.email}
+- Tên: ${order.name || "—"}
+- SĐT/Zalo: ${order.phone || "—"}
+
+Vui lòng đối chiếu bank và gửi license key.
+
+Thanks.`;
+      if (CONTACT_EMAIL) {
+        const url = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("PromptIMG CK " + order.memo)}&body=${encodeURIComponent(body)}`;
+        location.href = url;
+        document.getElementById("ok").textContent = "Đã mở email xác nhận. Kiểm tra đã gửi thành công.";
+      } else {
+        navigator.clipboard.writeText(body).then(() => {
+          document.getElementById("ok").textContent = "Đã copy nội dung xác nhận — dán vào Zalo/email admin.";
+        }).catch(() => {
+          prompt("Copy xác nhận:", body);
+        });
+      }
+    };
+
+    document.querySelectorAll(".copybtn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const v = btn.getAttribute("data-copy");
+        if (!v) return;
+        navigator.clipboard.writeText(v);
+        const old = btn.textContent;
+        btn.textContent = "ok";
+        setTimeout(() => { btn.textContent = old; }, 900);
+      });
+    });
+
+    // Restore last order
+    try {
+      const raw = localStorage.getItem("promptimg_last_order");
+      if (raw) {
+        const o = JSON.parse(raw);
+        if (o && o.code) {
+          selected = o.tier || "pro";
+          paintTiers();
+          document.getElementById("email").value = o.email || "";
+          document.getElementById("name").value = o.name || "";
+          document.getElementById("phone").value = o.phone || "";
+          setOrder(o);
+        }
+      }
+    } catch (_) {}
+  </script>
+</body>
+</html>
