@@ -6,40 +6,23 @@ Trang bán PromptIMG (static): pitch + bảng giá + **VietQR Techcombank**.
 
 | | |
 |--|--|
-| **Custom domain** | **https://img.gonovn.me/** |
+| **Custom domain** | **https://img.gonovn.me/** ✅ SSL Let’s Encrypt |
 | Repo | https://github.com/gonostudy305/promptimg |
 | Fallback | https://gonostudy305.github.io/promptimg/ |
 
-GitHub Pages đã set `cname: img.gonovn.me` + file `CNAME` trong repo.
+GitHub Pages: `cname: img.gonovn.me` · `https_enforced: true` · cert CN=`img.gonovn.me`.
 
 ---
 
-## DNS trên Cloudflare (bạn cần thêm 1 record)
+## DNS (Cloudflare) — đã cấu hình
 
-Domain `gonovn.me` đang trỏ Cloudflare. Hiện **`img.gonovn.me` chưa có DNS** → cần tạo:
+| Type | Name | Target | Proxy |
+|------|------|--------|-------|
+| **CNAME** | `img` | `gonostudy305.github.io` | **DNS only** (grey cloud) |
 
-### Record
+Giữ proxy **tắt** (hoặc SSL Cloudflare = **Full**) để không đụng cert GitHub.
 
-| Type | Name | Target / Content | Proxy status |
-|------|------|------------------|--------------|
-| **CNAME** | `img` | `gonostudy305.github.io` | **DNS only** (grey cloud) lúc setup |
-
-### Các bước Cloudflare
-
-1. Đăng nhập [dash.cloudflare.com](https://dash.cloudflare.com) → zone **gonovn.me**  
-2. **DNS** → **Add record**  
-3. Type **CNAME**, Name **`img`**, Target **`gonostudy305.github.io`**  
-4. Proxy: **Off (DNS only)** cho đến khi GitHub hiện DNS check xanh  
-5. **SSL/TLS** → Overview → mode **Full** (không dùng Flexible — hay gây 526)  
-6. Đợi 1–30 phút → mở https://img.gonovn.me/  
-7. GitHub → repo **promptimg** → Settings → Pages → **Enforce HTTPS** (khi domain verified)
-
-### Kiểm tra DNS
-
-```bash
-nslookup img.gonovn.me
-# kỳ vọng CNAME → gonostudy305.github.io
-```
+Nếu SSL lại lỗi: Settings → Pages → Remove custom domain → Add lại `img.gonovn.me` → đợi cert `approved` → Enforce HTTPS.
 
 ---
 
